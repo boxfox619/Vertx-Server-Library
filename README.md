@@ -1,7 +1,26 @@
 # Vertx routing library
+This project was developed to use Vertx like Spring. This library adds the some benefits of Spring Framework to Vertx.
+### Functions
+- Annotation Routing
+- Automatic parsing filed(query, path)
+- Easy async jobs
+- Managing services
+
+
+
+# Required
+You must route registering to use the library. using RouteRegister for using annotation routing function. When you invoke the route method, the package is the location that contains the routers.
+```
+RouteRegister routeRegister = RouteRegister.routing(vertx);
+Router router = routeRegister.getRouter();
+router.route().handler(BodyHandler.create());
+...
+routeRegister.route(this.getClass().getPackage().getName());
+```
 
 # Examples
-Explain how to using vertx server library with examples
+The example shows how to use the vertx server library.
+
 ### Simple routing with annotation
 This library provide simple routing with annotations. You can use @RouteRegistration for register handler with uri and http method. library will parsing field(with query, path) and binding to method parameters automatically.
 ```
