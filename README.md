@@ -1,4 +1,4 @@
-# Vertx routing library
+# Vertx routing library [![Build Status](https://travis-ci.org/boxfox619/Vertx-Server-Library.svg?branch=master)](https://travis-ci.org/boxfox619/Vertx-Server-Library)
 This project was developed to use Vertx like Spring. This library adds the some benefits of Spring Framework to Vertx.
 ### Functions
 - Annotation Routing
