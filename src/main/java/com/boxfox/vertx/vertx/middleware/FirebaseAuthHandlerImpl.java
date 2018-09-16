@@ -16,26 +16,9 @@ import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.RoutingContext;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class FirebaseAuthHandlerImpl implements FirebaseAuthHandler {
-
-    public FirebaseAuthHandlerImpl(String firebaseKeystore){
-        try {
-            System.out.println("Initilize firebase");
-            FileInputStream serviceAccount = new FileInputStream(firebaseKeystore);
-
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
-
-            FirebaseApp.initializeApp(options);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void handle(RoutingContext ctx) {
