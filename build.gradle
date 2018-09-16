@@ -1,14 +1,10 @@
-buildscript {
-    repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-    }
-}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
 group 'com.boxfox.vertx'
-version '1.0.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     jcenter()
@@ -16,14 +12,8 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'com.github.johnrengelman.shadow'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 dependencies {
+    compile 'com.google.guava:guava:18.0'
     compile group:'io.vertx', name:'vertx-core', version:'3.5.0'
     compile group:'io.vertx', name:'vertx-web', version:'3.5.0'
     compile group: 'io.vertx', name: 'vertx-auth-jwt', version:'3.5.0'
@@ -40,30 +30,25 @@ compileJava {
     options.compilerArgs << '-parameters'
 }
 
-shadowJar {
-    mustRunAfter jar
-
-    destinationDir =  file("$projectDir/build/shadow")
-    classifier = 'all'
-    manifest {
-        attributes 'Main-Class': 'io.vertx.core.Launcher'
-        attributes 'Main-Verticle': 'com.boxfox.core.MainVerticle'
-    }
-    mergeServiceFiles {
-        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
-    }
-
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
-assemble.dependsOn shadowJar
-
-task stage(dependsOn: build) {
+artifacts {
+    archives sourcesJar
 }
-task start(dependsOn: shadowJar) {
-    doLast {
-        javaexec {
-            main = "-jar"
-            args += project.tasks.shadowJar.archivePath
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
         }
     }
 }
