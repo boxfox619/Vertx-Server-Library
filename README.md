@@ -6,9 +6,12 @@ This project was developed to use Vertx like Spring. This library adds the some 
 - Easy async jobs
 - Managing services
 
+# How to use
 
+## dependency
+You can use this library with [jitpack](https://jitpack.io/#boxfox619/Vertx-Server-Library).
 
-# Required
+## Required
 You must route registering to use the library. using RouteRegister for using annotation routing function. When you invoke the route method, the package is the location that contains the routers.
 ```
 RouteRegister routeRegister = RouteRegister.routing(vertx);
@@ -18,7 +21,7 @@ router.route().handler(BodyHandler.create());
 routeRegister.route(this.getClass().getPackage().getName());
 ```
 
-# Examples
+## Examples
 The example shows how to use the vertx server library.
 
 ### Simple routing with annotation
