@@ -1,19 +1,21 @@
 package com.boxfox.vertx.vertx.router;
 
-import java.util.*;
-
 import com.boxfox.vertx.vertx.middleware.BaseHandler;
 import com.boxfox.vertx.vertx.service.ServiceInjector;
-import io.vertx.core.Vertx;
-import org.reflections.Reflections;
-
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RouteRegister {
     private ServiceInjector serviceInjector;
@@ -51,6 +53,15 @@ public class RouteRegister {
                 RouteRegistration annotation = c.getAnnotation(RouteRegistration.class);
                 try {
                     Object routingInstance = c.newInstance();
+                    try {
+                        Field vertxField = routingInstance.getClass().getSuperclass().getDeclaredField("vertx");
+                        if (vertxField != null) {
+                            vertxField.setAccessible(true);
+                            vertxField.set(routingInstance, this.vertx);
+                        }
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
                     Handler handler = (Handler<RoutingContext>) routingInstance;
                     for (HttpMethod method : annotation.method()) {
                         if (annotation.auth() && this.authHandler != null) {
