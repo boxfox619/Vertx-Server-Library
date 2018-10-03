@@ -1,6 +1,8 @@
 package com.boxfox.vertx.vertx.router;
 
+import com.boxfox.vertx.vertx.ClassFieldUtil;
 import com.boxfox.vertx.vertx.middleware.BaseHandler;
+import com.boxfox.vertx.vertx.service.AbstractService;
 import com.boxfox.vertx.vertx.service.ServiceInjector;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -54,7 +56,7 @@ public class RouteRegister {
                 try {
                     Object routingInstance = c.newInstance();
                     try {
-                        Field vertxField = routingInstance.getClass().getSuperclass().getDeclaredField("vertx");
+                        Field vertxField = ClassFieldUtil.getField(routingInstance.getClass(), AbstractRouter.class, "vertx");
                         if (vertxField != null) {
                             vertxField.setAccessible(true);
                             vertxField.set(routingInstance, this.vertx);

@@ -1,19 +1,21 @@
 package com.boxfox.vertx.vertx.service;
 
+import com.boxfox.vertx.vertx.ClassFieldUtil;
 import io.vertx.core.Vertx;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ServiceInjector {
     private Map<Class, AbstractService> serviceMap;
     private Vertx vertx;
 
-    public ServiceInjector(Vertx vertx){
+    public ServiceInjector(Vertx vertx) {
         this.serviceMap = new HashMap<>();
-        this.vertx= vertx;
+        this.vertx = vertx;
     }
 
     public void injectService(Object instance) throws InstantiationException, IllegalAccessException {
@@ -32,16 +34,16 @@ public class ServiceInjector {
             service = (AbstractService) serviceClass.newInstance();
             injectService(service);
             try {
-                Field vertxField = service.getClass().getSuperclass().getDeclaredField("vertx");
+                Field vertxField = ClassFieldUtil.getField(serviceClass, AbstractService.class, "vertx");
                 if (vertxField != null) {
                     vertxField.setAccessible(true);
                     vertxField.set(service, this.vertx);
                 }
-            } catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException | NoSuchElementException e) {
                 e.printStackTrace();
             }
             try {
-                service.getClass().getMethod("init").invoke(service);
+                ClassFieldUtil.getMethod(serviceClass, AbstractService.class, "init").invoke(service);
             } catch (NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
