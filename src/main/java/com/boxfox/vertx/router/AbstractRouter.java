@@ -1,6 +1,6 @@
-package com.boxfox.vertx.vertx.router;
+package com.boxfox.vertx.router;
 
-import com.boxfox.vertx.vertx.service.AsyncService;
+import com.boxfox.vertx.service.AsyncService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.vertx.core.AsyncResult;

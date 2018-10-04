@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx.middleware;
+package com.boxfox.vertx.middleware;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;

@@ -1,10 +1,7 @@
-package com.boxfox.vertx.vertx.middleware;
+package com.boxfox.vertx.middleware;
 
 import com.boxfox.vertx.util.LogUtil;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 import io.netty.handler.codec.http.HttpResponseStatus;

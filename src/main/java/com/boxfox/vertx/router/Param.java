@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx.router;
+package com.boxfox.vertx.router;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

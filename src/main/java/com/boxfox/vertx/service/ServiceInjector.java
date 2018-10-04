@@ -1,6 +1,6 @@
-package com.boxfox.vertx.vertx.service;
+package com.boxfox.vertx.service;
 
-import com.boxfox.vertx.vertx.ClassFieldUtil;
+import com.boxfox.vertx.util.ClassFieldUtil;
 import io.vertx.core.Vertx;
 
 import java.lang.reflect.Field;

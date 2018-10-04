@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx;
+package com.boxfox.vertx.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

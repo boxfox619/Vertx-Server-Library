@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx.service;
+package com.boxfox.vertx.service;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

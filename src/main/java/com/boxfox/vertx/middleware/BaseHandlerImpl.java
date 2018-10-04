@@ -1,6 +1,6 @@
-package com.boxfox.vertx.vertx.middleware;
+package com.boxfox.vertx.middleware;
 
-import com.boxfox.vertx.vertx.router.Param;
+import com.boxfox.vertx.router.Param;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

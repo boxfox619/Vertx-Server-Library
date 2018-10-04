@@ -1,9 +1,8 @@
-package com.boxfox.vertx.vertx.router;
+package com.boxfox.vertx.router;
 
-import com.boxfox.vertx.vertx.ClassFieldUtil;
-import com.boxfox.vertx.vertx.middleware.BaseHandler;
-import com.boxfox.vertx.vertx.service.AbstractService;
-import com.boxfox.vertx.vertx.service.ServiceInjector;
+import com.boxfox.vertx.util.ClassFieldUtil;
+import com.boxfox.vertx.middleware.BaseHandler;
+import com.boxfox.vertx.service.ServiceInjector;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -18,6 +17,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class RouteRegister {
     private ServiceInjector serviceInjector;
@@ -63,6 +63,8 @@ public class RouteRegister {
                         }
                     } catch (NoSuchFieldException e) {
                         e.printStackTrace();
+                    } catch (NoSuchElementException e) {
+                        //Normal
                     }
                     Handler handler = (Handler<RoutingContext>) routingInstance;
                     for (HttpMethod method : annotation.method()) {

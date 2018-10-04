@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx.router;
+package com.boxfox.vertx.router;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

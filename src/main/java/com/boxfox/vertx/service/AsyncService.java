@@ -1,4 +1,4 @@
-package com.boxfox.vertx.vertx.service;
+package com.boxfox.vertx.service;
 
 import io.vertx.core.*;
 
