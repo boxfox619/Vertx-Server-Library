@@ -5,3 +5,5 @@ jdk:
   - openjdk8
 script:
   - gradle build
+after_success:
+  - gradle cobertura coveralls

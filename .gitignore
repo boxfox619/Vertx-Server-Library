@@ -2,6 +2,8 @@
 build/
 .gradle
 
+.coveralls.yml
+
 *.jar
 *.aar
 *.war
