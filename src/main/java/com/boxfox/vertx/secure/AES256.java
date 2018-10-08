@@ -13,34 +13,34 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.boxfox.vertx.data.Config;
 import org.apache.commons.codec.binary.Base64;
 
 public class AES256 {
-    private static String ips;
-    private static Key keySpec;
-    private static String key = Config.getDefaultInstance().getString("aesKey");
-    
-    static {
-        try {
-            byte[] keyBytes = new byte[16];
-            byte[] b = key.getBytes("UTF-8");
-            System.arraycopy(b, 0, keyBytes, 0, keyBytes.length);
-            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-            AES256.ips = key.substring(0, 16);
-            AES256.keySpec = keySpec;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private String ips;
+    private Key keySpec;
+
+    public static AES256 create(String key) throws UnsupportedEncodingException {
+        byte[] keyBytes = new byte[16];
+        byte[] b = key.getBytes("UTF-8");
+        System.arraycopy(b, 0, keyBytes, 0, keyBytes.length);
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+        String ips = key.substring(0, 16);
+        AES256 aes256 = new AES256(ips, keySpec);
+        return aes256;
     }
 
-    public static String encrypt(String str) {
+    private AES256(String ips, Key keySpec) {
+        this.ips = ips;
+        this.keySpec = keySpec;
+    }
+
+    public String encrypt(String str) {
         if (str == null) return null;
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec,
-                    new IvParameterSpec(ips.getBytes("UTF-8")));
+            cipher.init(Cipher.ENCRYPT_MODE, this.keySpec,
+                    new IvParameterSpec(this.ips.getBytes("UTF-8")));
 
             byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
             String Str = new String(Base64.encodeBase64(encrypted));
@@ -54,13 +54,13 @@ public class AES256 {
         return null;
     }
 
-    public static String decrypt(String str) {
+    public String decrypt(String str) {
         if (str == null) return null;
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, keySpec,
-                    new IvParameterSpec(ips.getBytes("UTF-8")));
+            cipher.init(Cipher.DECRYPT_MODE, this.keySpec,
+                    new IvParameterSpec(this.ips.getBytes("UTF-8")));
 
             byte[] byteStr = Base64.decodeBase64(str.getBytes());
             String Str = new String(cipher.doFinal(byteStr), "UTF-8");
