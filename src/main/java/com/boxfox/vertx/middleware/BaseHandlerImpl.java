@@ -90,7 +90,7 @@ public class BaseHandlerImpl implements BaseHandler {
         });
         try {
             m.invoke(instance, argments.toArray());
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.getTargetException().printStackTrace();
