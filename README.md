@@ -1,4 +1,4 @@
-# Vertx routing library [![Build Status](https://travis-ci.org/boxfox619/Vertx-Server-Library.svg?branch=master)](https://travis-ci.org/boxfox619/Vertx-Server-Library)
+# Vertx routing library [![Build Status](https://travis-ci.org/boxfox619/Vertx-Server-Library.svg?branch=master)](https://travis-ci.org/boxfox619/Vertx-Server-Library) [![Coverage Status](https://coveralls.io/repos/github/boxfox619/Vertx-Server-Library/badge.svg?branch=master)](https://coveralls.io/github/boxfox619/Vertx-Server-Library?branch=master)
 This project was developed to use Vertx like Spring. This library adds the some benefits of Spring Framework to Vertx.
 ### Functions
 - Annotation Routing
