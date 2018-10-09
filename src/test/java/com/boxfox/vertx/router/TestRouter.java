@@ -14,7 +14,7 @@ public class TestRouter extends AbstractRouter{
     private WrappedTestService testService2;
 
     @RouteRegistration(uri = "/test/:id", method = HttpMethod.GET)
-    public void test(RoutingContext ctx, @Param(name="id") String testParam1, @Param(name="testParam2") int testParam2, @Param(name="testParam3") boolean testParam3){
-        ctx.response().setStatusCode(200).end("test");
+    public void test(RoutingContext ctx, @Param(name = "id") String testParam1, @Param(name = "testParam2") int testParam2, @Param(name = "testParam3") boolean testParam3) {
+        ctx.response().setStatusCode((testParam1 != null) ? 200 : 400).end("test");
     }
 }
