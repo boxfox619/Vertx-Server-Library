@@ -30,7 +30,7 @@ This library provide simple routing with annotations. You can use @RouteRegistra
 public class ExampleRouter extends AbstractRouter {
 
     @RouteRegistration(uri = "/update", method = HttpMethod.POST)
-    public void signin(RoutingContext ctx, @Param String arg1, @Param String arg2) {
+    public void signin(RoutingContext ctx, @Param(name="arg1") String arg1, @Param(name="arg2") String arg2) {
         ...
     }
 }

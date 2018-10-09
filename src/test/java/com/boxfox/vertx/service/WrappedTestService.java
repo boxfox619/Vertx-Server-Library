@@ -4,6 +4,6 @@ public class WrappedTestService extends WrapperService{
 
     @Override
     public void init(){
-        System.out.println("test");
+        System.out.println("test service init");
     }
 }

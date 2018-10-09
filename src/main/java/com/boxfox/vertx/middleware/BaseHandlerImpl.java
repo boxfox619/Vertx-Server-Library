@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BaseHandlerImpl implements BaseHandler {
     private Object instance;
@@ -72,19 +73,23 @@ public class BaseHandlerImpl implements BaseHandler {
     @Override
     public void handle(RoutingContext ctx) {
         List<Object> arguments = new ArrayList<>();
+        List<String> emptyArguments = new ArrayList();
         Arrays.stream(m.getParameters()).forEach(param -> {
             Class<?> paramClass = param.getType();
             if (paramClass.equals(RoutingContext.class)) {
                 arguments.add(ctx);
             } else {
-                String paramName = param.getName();
                 Object paramData = null;
                 if (param.getAnnotation(Param.class) != null) {
+                    String paramName = param.getAnnotation(Param.class).name();
                     paramData = getParameterFromBody(ctx, paramName, paramClass);
                     if (paramData == null)
                         paramData = castingParameter(ctx.pathParam(paramName), paramClass);
                     if (paramData == null && ctx.queryParam(paramName).size() > 0)
                         paramData = castingParameter(ctx.queryParam(paramName).get(0), paramClass);
+                    if(paramData==null){
+                        emptyArguments.add(paramName);
+                    }
                 }
                 arguments.add(paramData);
             }
@@ -94,12 +99,7 @@ public class BaseHandlerImpl implements BaseHandler {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            List requiredArgs = Arrays.stream(m.getParameterTypes()).map(item -> item.getClass().getTypeName()).collect(Collectors.toList());
-            List inputList = arguments.stream().map(item -> (item==null)? "null": item.getClass().getTypeName()).collect(Collectors.toList());
-            String required = String.join(",", requiredArgs);
-            String inputs = String.join(",", inputList);
-            System.err.printf("%s / %s", required, inputs);
-            e.printStackTrace();
+            ctx.response().setStatusCode(400).end(String.format("Illegal arguments %s", String.join(",",emptyArguments)));
         } catch (InvocationTargetException e) {
             e.getTargetException().printStackTrace();
         }
