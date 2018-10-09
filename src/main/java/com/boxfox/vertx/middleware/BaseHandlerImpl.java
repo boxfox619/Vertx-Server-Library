@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BaseHandlerImpl implements BaseHandler {
     private Object instance;
@@ -70,11 +71,11 @@ public class BaseHandlerImpl implements BaseHandler {
 
     @Override
     public void handle(RoutingContext ctx) {
-        List<Object> argments = new ArrayList<>();
+        List<Object> arguments = new ArrayList<>();
         Arrays.stream(m.getParameters()).forEach(param -> {
             Class<?> paramClass = param.getType();
             if (paramClass.equals(RoutingContext.class)) {
-                argments.add(ctx);
+                arguments.add(ctx);
             } else {
                 String paramName = param.getName();
                 Object paramData = null;
@@ -85,12 +86,19 @@ public class BaseHandlerImpl implements BaseHandler {
                     if (paramData == null && ctx.queryParam(paramName).size() > 0)
                         paramData = castingParameter(ctx.queryParam(paramName).get(0), paramClass);
                 }
-                argments.add(paramData);
+                arguments.add(paramData);
             }
         });
         try {
-            m.invoke(instance, argments.toArray());
-        } catch (IllegalAccessException | IllegalArgumentException e) {
+            m.invoke(instance, arguments.toArray());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            List requiredArgs = Arrays.stream(m.getParameterTypes()).map(item -> item.getClass().getTypeName()).collect(Collectors.toList());
+            List inputList = arguments.stream().map(item -> (item==null)? "null": item.getClass().getTypeName()).collect(Collectors.toList());
+            String required = String.join(",", requiredArgs);
+            String inputs = String.join(",", inputList);
+            System.err.printf("%s / %s", required, inputs);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.getTargetException().printStackTrace();
