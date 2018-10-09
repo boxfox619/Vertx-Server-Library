@@ -5,14 +5,13 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class BaseHandlerImpl implements BaseHandler {
     private Object instance;
@@ -97,11 +96,13 @@ public class BaseHandlerImpl implements BaseHandler {
         try {
             m.invoke(instance, arguments.toArray());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.getRootLogger().error(e);
         } catch (IllegalArgumentException e) {
-            ctx.response().setStatusCode(400).end(String.format("Illegal arguments %s", String.join(",",emptyArguments)));
+            String message = String.format("Illegal arguments %s", String.join(",",emptyArguments));
+            ctx.response().setStatusCode(400).end(message);
+            Logger.getRootLogger().error(message, e);
         } catch (InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
+            Logger.getRootLogger().error(e.getTargetException());
         }
     }
 }

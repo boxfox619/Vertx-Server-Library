@@ -1,6 +1,5 @@
 package com.boxfox.vertx.middleware;
 
-import com.boxfox.vertx.util.LogUtil;
 import com.google.common.net.HttpHeaders;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
@@ -12,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.log4j.Logger;
 
 import java.util.concurrent.ExecutionException;
 
@@ -36,7 +36,7 @@ public class FirebaseAuthHandlerImpl implements FirebaseAuthHandler {
                     return;
                 }
             } catch (InterruptedException | ExecutionException e) {
-                LogUtil.getLogger().debug(e.getMessage());
+                Logger.getRootLogger().error(e);
             }
         }
         ctx.fail(HttpResponseStatus.UNAUTHORIZED.code());
