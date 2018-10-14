@@ -35,7 +35,7 @@ public class RouterMapDoc {
       Arrays.stream(m.getParameters()).forEach(param -> {
         Class<?> paramClass = param.getType();
         if (!paramClass.equals(RoutingContext.class)) {
-          String paramName = param.getName();
+          String paramName = param.getAnnotation(Param.class).name();
           params.add(paramName);
         }
       });
