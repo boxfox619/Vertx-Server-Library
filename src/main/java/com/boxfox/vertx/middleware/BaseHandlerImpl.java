@@ -86,7 +86,7 @@ public class BaseHandlerImpl implements BaseHandler {
                         paramData = castingParameter(ctx.pathParam(paramName), paramClass);
                     if (paramData == null && ctx.queryParam(paramName).size() > 0)
                         paramData = castingParameter(ctx.queryParam(paramName).get(0), paramClass);
-                    if(paramData==null){
+                    if (paramData == null) {
                         emptyArguments.add(paramName);
                     }
                 }
@@ -96,12 +96,14 @@ public class BaseHandlerImpl implements BaseHandler {
         try {
             m.invoke(instance, arguments.toArray());
         } catch (IllegalAccessException e) {
+            ctx.response().setStatusCode(500).end();
             Logger.getRootLogger().error(e);
         } catch (IllegalArgumentException e) {
-            String message = String.format("Illegal arguments %s", String.join(",",emptyArguments));
+            String message = String.format("Illegal arguments %s", String.join(",", emptyArguments));
             ctx.response().setStatusCode(400).end(message);
             Logger.getRootLogger().error(message, e);
         } catch (InvocationTargetException e) {
+            ctx.response().setStatusCode(500).end();
             Logger.getRootLogger().error(e.getTargetException());
         }
     }
