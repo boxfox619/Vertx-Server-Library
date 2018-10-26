@@ -1,4 +1,4 @@
-# Vertx routing library [![Build Status](https://travis-ci.org/boxfox619/Vertx-Server-Library.svg?branch=master)](https://travis-ci.org/boxfox619/Vertx-Server-Library) [![Coverage Status](https://coveralls.io/repos/github/boxfox619/Vertx-Server-Library/badge.svg?branch=master)](https://coveralls.io/github/boxfox619/Vertx-Server-Library?branch=master)
+# Vertx Web East To Make library [![Build Status](https://travis-ci.org/boxfox619/vertx-wetm-library.svg?branch=master)](https://travis-ci.org/boxfox619/vertx-wetm-library) [![Coverage Status](https://coveralls.io/repos/github/boxfox619/vertx-wetm-library/badge.svg?branch=master)](https://coveralls.io/github/boxfox619/vertx-wetm-library?branch=master)
 This project was developed to use Vertx like Spring. This library adds the some benefits of Spring Framework to Vertx.
 ### Functions
 - Annotation Routing
@@ -9,7 +9,7 @@ This project was developed to use Vertx like Spring. This library adds the some 
 # How to use
 
 ## dependency
-You can use this library with [jitpack](https://jitpack.io/#boxfox619/Vertx-Server-Library).
+You can use this library with [jitpack](https://jitpack.io/#boxfox619/vertx-wetm-library).
 
 ## Required
 You must route registering to use the library. using RouteRegister for using annotation routing function. When you invoke the route method, the package is the location that contains the routers.
